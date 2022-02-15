@@ -12,20 +12,25 @@ import 'package:provider/provider.dart';
 import 'package:nuclei_assignments/controller/screen_controller.dart';
 
 class AddContactsPage extends StatelessWidget{
+
+  AddContactsPage({Key? key}) : super(key: key);
+
   final Controller ctrl=Get.find();
   final TextEditingController _controller = TextEditingController();
+
+  @override
   Widget build(context){
     Contacts cont=Contacts();
     return Scaffold(
         appBar:  AppBar(
-            title:  Text("Add Contact")
+            title:  const Text("Add Contact")
         ),
         body:  Column(
             children:  <Widget>[
               ListTile(
-                leading: Icon(Icons.person),
+                leading: const Icon(Icons.person),
                 title:  TextFormField(
-                  decoration:  InputDecoration(
+                  decoration:  const InputDecoration(
                     hintText: "Name",
                   ),
                   onChanged: (name){
@@ -34,9 +39,9 @@ class AddContactsPage extends StatelessWidget{
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.phone),
+                leading: const Icon(Icons.phone),
                 title:  TextFormField(
-                  decoration:  InputDecoration(
+                  decoration:  const InputDecoration(
                     hintText: "Phone",
                   ),
                   onChanged: (number){
@@ -45,9 +50,9 @@ class AddContactsPage extends StatelessWidget{
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.email),
+                leading: const Icon(Icons.email),
                 title:  TextFormField(
-                    decoration:  InputDecoration(
+                    decoration:  const InputDecoration(
                       hintText: "Email",
                     ),
                     onChanged: (email){

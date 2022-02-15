@@ -5,7 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'contacts.dart';
 import 'dart:async';
 
-class dbServices{
+class DbServices{
   static late Box box;
   static List<Contacts> getContacts() {
     List<Contacts> contactList=box.values.toList() as List<Contacts>;
@@ -22,7 +22,7 @@ class dbServices{
 
   static void getFromServices() async{
     List<Contact> contacts = await ContactsService.getContacts();
-    contacts.forEach((element) {
+    for (var element in contacts) {
       var contact=Contacts(
           displayName : element.displayName??"Name",
           givenName : element.givenName,
@@ -38,6 +38,6 @@ class dbServices{
           avatar : element.avatar
       );
       box.add(contact);
-    });
+    }
   }
 }

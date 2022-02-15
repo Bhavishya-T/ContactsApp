@@ -24,7 +24,7 @@ class ContactsApp extends StatelessWidget {
     return GetMaterialApp(home: Scaffold(
         appBar: AppBar(
           title:  TextFormField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
                 hintText: 'Search',
                 prefixIcon: Icon(Icons.search)
             ),
@@ -42,9 +42,9 @@ class ContactsApp extends StatelessWidget {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Get.to(add_screen.AddContactsPage());
+                Get.toNamed('/addContactsPage');
               },
-              child: Text("Add Contact"),
+              child: const Text("Add Contact"),
             ),
           ],
         ),
@@ -61,20 +61,20 @@ class ContactsApp extends StatelessWidget {
                   title: Text(controller.contactsList.elementAt(index).displayName ?? 'Name'),
                   subtitle: Text(controller.contactsList.elementAt(index).phones??'NA'),
                   trailing: IconButton(
-                      icon: Icon(Icons.delete),
+                      icon: const Icon(Icons.delete),
                       onPressed: ()=>controller.deleteContact(index)
                   ),
                   onLongPress: (){
                     update_screen.UpdateContactPage update=update_screen.UpdateContactPage();
                     update.updatedContactIndex=index;
-                    Get.to(update);
+                    Get.toNamed('/updateScreen');
                   }
               );
             }
         )),
         floatingActionButton : FloatingActionButton.extended(
             onPressed: () {
-              dbServices.box.clear();
+              DbServices.box.clear();
               controller.getContacts();
             },
             backgroundColor: Colors.blue,
