@@ -13,8 +13,12 @@ import 'package:nuclei_assignments/controller/screen_controller.dart';
 
 
 class UpdateContactPage extends StatelessWidget{
+  UpdateContactPage({Key? key}) : super(key: key);
+
   Controller ctrl=Get.find();
   late int updatedContactIndex;
+
+  @override
   Widget build(context){
     Contacts updatedContact=Contacts();
     updatedContact.displayName=ctrl.contactsList.elementAt(updatedContactIndex).displayName;
@@ -22,12 +26,12 @@ class UpdateContactPage extends StatelessWidget{
     updatedContact.emails=ctrl.contactsList.elementAt(updatedContactIndex).emails;
     return Scaffold(
         appBar:  AppBar(
-            title:  Text("Update Contact")
+            title:  const Text("Update Contact")
         ),
         body:  Column(
             children:  <Widget>[
               ListTile(
-                leading: Icon(Icons.person),
+                leading: const Icon(Icons.person),
                 title:  TextFormField(
                     initialValue: ctrl.contactsList.elementAt(updatedContactIndex).displayName,
                     onChanged: (name){
@@ -36,7 +40,7 @@ class UpdateContactPage extends StatelessWidget{
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.phone),
+                leading: const Icon(Icons.phone),
                 title:  TextFormField(
                     initialValue: ctrl.contactsList.elementAt(updatedContactIndex).phones,
                     onChanged: (number){
@@ -45,7 +49,7 @@ class UpdateContactPage extends StatelessWidget{
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.email),
+                leading: const Icon(Icons.email),
                 title:  TextFormField(
                     initialValue: ctrl.contactsList.elementAt(updatedContactIndex).emails,
                     onChanged: (email){

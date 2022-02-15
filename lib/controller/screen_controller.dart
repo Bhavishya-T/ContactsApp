@@ -14,32 +14,32 @@ class Controller extends GetxController {
   var contactsList=<Contacts>[].obs;
 
   void addContact(Contacts cont){
-    dbServices.box.add(cont);
+    DbServices.box.add(cont);
     contactsList.add(cont);
   }
 
   void getContacts(){
     List<Contacts> newList=[];
     contactsList.clear();
-    if(dbServices.box.length==0){
-      dbServices.getFromServices();
+    if(DbServices.box.length==0){
+      DbServices.getFromServices();
     }
-    newList=dbServices.getContacts();
-    newList.forEach((element) {contactsList.add(element);});
+    newList=DbServices.getContacts();
+    for (var element in newList) {contactsList.add(element);}
   }
 
   void deleteContact(int index){
-    dbServices.box.deleteAt(index);
+    DbServices.box.deleteAt(index);
     contactsList.removeAt(index);
   }
 
   void filterList(String name){
-    List<Contacts> newList=dbServices.getContacts();
+    List<Contacts> newList=DbServices.getContacts();
     contactsList.clear();
-    newList.forEach((element) {
+    for (var element in newList) {
       if(element.displayName!.startsWith(name)){
         contactsList.add(element);
       }
-    });
+    }
   }
 }
