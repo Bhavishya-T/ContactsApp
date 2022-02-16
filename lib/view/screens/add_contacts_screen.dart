@@ -1,73 +1,78 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:contacts_service/contacts_service.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:nuclei_assignments/model/contacts.dart';
-import 'package:nuclei_assignments/model/db_services.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'dart:async';
-import 'package:provider/provider.dart';
 import 'package:nuclei_assignments/controller/screen_controller.dart';
 
 class AddContactsPage extends StatelessWidget{
 
-  AddContactsPage({Key? key}) : super(key: key);
+  AddContactsPage({Key? key}) : super(key: key){
+    ctrl.nameValidator("");
+    ctrl.phoneValidator("");
+    ctrl.emailValidator("");
+  }
 
   final Controller ctrl=Get.find();
-  final TextEditingController _controller = TextEditingController();
+  final Contacts cont=Contacts();
 
   @override
   Widget build(context){
-    Contacts cont=Contacts();
     return Scaffold(
         appBar:  AppBar(
             title:  const Text("Add Contact")
         ),
-        body:  Column(
+        body: Obx(()=> Column(
             children:  <Widget>[
               ListTile(
                 leading: const Icon(Icons.person),
-                title:  TextFormField(
-                  decoration:  const InputDecoration(
+                title: TextFormField(
+                  decoration:  InputDecoration(
                     hintText: "Name",
+                    errorText: ctrl.nameValidatorMessage.value
                   ),
                   onChanged: (name){
                     cont.displayName=name;
+                    ctrl.nameValidator(name);
                   },
                 ),
               ),
               ListTile(
                 leading: const Icon(Icons.phone),
-                title:  TextFormField(
-                  decoration:  const InputDecoration(
+                title: TextFormField(
+                  decoration:   InputDecoration(
                     hintText: "Phone",
+                    errorText: ctrl.phoneValidatorMessage.value
                   ),
                   onChanged: (number){
                     cont.phones=number;
+                    ctrl.phoneValidator(number);
                   },
                 ),
               ),
               ListTile(
                 leading: const Icon(Icons.email),
-                title:  TextFormField(
-                    decoration:  const InputDecoration(
+                title: TextFormField(
+                    decoration:   InputDecoration(
                       hintText: "Email",
+                      errorText: ctrl.emailValidatorMessage.value
                     ),
                     onChanged: (email){
                       cont.emails=email;
+                      ctrl.emailValidator(email);
                     }
                 ),
-              )]
-        ),
-        floatingActionButton: FloatingActionButton.extended(onPressed: () {
-          ctrl.addContact(cont);
-          Get.back();
-        },
-            backgroundColor: Colors.blue,
-            label: const Text("Add Contact")
-        )
+              ),
+              FloatingActionButton.extended(onPressed: () {
+                if(ctrl.phoneValidatorMessage.value==null && ctrl.nameValidatorMessage.value==null &&
+                ctrl.emailValidatorMessage.value==null){
+                  ctrl.addContact(cont);
+                }
+                Get.back();
+              },
+                  backgroundColor: Colors.blue,
+                  label: const Text("Add Contact")
+              )
+            ]
+        )),
     );
   }
 }

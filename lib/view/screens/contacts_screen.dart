@@ -1,27 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:contacts_service/contacts_service.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:nuclei_assignments/model/contacts.dart';
 import 'package:nuclei_assignments/model/db_services.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'dart:async';
-import 'package:provider/provider.dart';
 import 'package:nuclei_assignments/controller/screen_controller.dart';
-import 'package:nuclei_assignments/view/screens/add_contacts_screen.dart' as add_screen;
-import 'package:nuclei_assignments/view/screens/update_screen.dart' as update_screen;
+import 'package:nuclei_assignments/controller/constants.dart';
+
+
 
 class ContactsApp extends StatelessWidget {
-  ContactsApp({Key? key}) : super(key: key);
+  ContactsApp({Key? key}) : super(key: key){
+    controller.getContacts();
+  }
 
   final controller=Get.put(Controller());
 
   @override
   Widget build(BuildContext context){
-    controller.getContacts();
-    return GetMaterialApp(home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title:  TextFormField(
             decoration: const InputDecoration(
@@ -29,7 +23,7 @@ class ContactsApp extends StatelessWidget {
                 prefixIcon: Icon(Icons.search)
             ),
             onChanged: (searchedName){
-              if(searchedName.isNotEmpty && searchedName!=null){
+              if(searchedName.isNotEmpty){
                 controller.filterList(searchedName);
               }
               else{
@@ -42,7 +36,7 @@ class ContactsApp extends StatelessWidget {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Get.toNamed('/addContactsPage');
+                Get.toNamed(Constants.ADD_CONTACTS_SCREEN);
               },
               child: const Text("Add Contact"),
             ),
@@ -65,9 +59,9 @@ class ContactsApp extends StatelessWidget {
                       onPressed: ()=>controller.deleteContact(index)
                   ),
                   onLongPress: (){
-                    update_screen.UpdateContactPage update=update_screen.UpdateContactPage();
-                    update.updatedContactIndex=index;
-                    Get.toNamed('/updateScreen');
+                    // update_screen.UpdateContactPage update=update_screen.UpdateContactPage();
+                    // update.updatedContactIndex=index;
+                    Get.toNamed(Constants.UPDATE_SCREEN,arguments: index);
                   }
               );
             }
@@ -80,6 +74,6 @@ class ContactsApp extends StatelessWidget {
             backgroundColor: Colors.blue,
             label: const Text("Refresh Page")
         )
-    ));
+    );
   }
 }

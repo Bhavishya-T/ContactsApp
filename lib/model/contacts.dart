@@ -1,11 +1,6 @@
 import 'dart:typed_data';
-
-import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:nuclei_assignments/main.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
 
 part 'contacts.g.dart';
 

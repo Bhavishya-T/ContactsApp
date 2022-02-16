@@ -1,17 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:contacts_service/contacts_service.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:nuclei_assignments/model/contacts.dart';
 import 'package:nuclei_assignments/model/db_services.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'dart:async';
-import 'package:provider/provider.dart';
 
 class Controller extends GetxController {
   var contactsList=<Contacts>[].obs;
+  RxnString nameValidatorMessage = RxnString(null);
+  RxnString phoneValidatorMessage=RxnString(null);
+  RxnString emailValidatorMessage=RxnString(null);
 
   void addContact(Contacts cont){
     DbServices.box.add(cont);
@@ -40,6 +35,28 @@ class Controller extends GetxController {
       if(element.displayName!.startsWith(name)){
         contactsList.add(element);
       }
+    }
+  }
+
+  void nameValidator(String name){
+    nameValidatorMessage.value=null;
+    if(name.isEmpty){
+      nameValidatorMessage.value="Enter a valid name";
+    }
+  }
+
+  void phoneValidator(String number){
+    phoneValidatorMessage.value=null;
+    if(number.length!=10){
+      phoneValidatorMessage.value="Enter a 10 digit number";
+    }
+  }
+
+  void emailValidator(String email){
+    bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+    emailValidatorMessage.value=null;
+    if(!emailValid){
+      emailValidatorMessage.value="Enter email in the right format";
     }
   }
 }

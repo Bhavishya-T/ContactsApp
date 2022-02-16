@@ -1,6 +1,4 @@
-import 'package:nuclei_assignments/main.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'contacts.dart';
 import 'dart:async';
@@ -17,6 +15,8 @@ class DbServices{
   }
 
   static Future<void> init() async{
+    await Hive.initFlutter();
+    Hive.registerAdapter(ContactsAdapter());
     box=await Hive.openBox<Contacts>("contactsBox");
   }
 
