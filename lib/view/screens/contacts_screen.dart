@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nuclei_assignments/model/db_services.dart';
-import 'package:nuclei_assignments/controller/screen_controller.dart';
+import 'package:nuclei_assignments/controller/contact_screen_controller.dart';
 import 'package:nuclei_assignments/controller/constants.dart';
 
-
-
-class ContactsApp extends StatelessWidget {
-  ContactsApp({Key? key}) : super(key: key){
+class ContactsListScreen extends StatelessWidget {
+  ContactsListScreen({Key? key}) : super(key: key){
     controller.getContacts();
   }
 
-  final controller=Get.put(Controller());
+  final controller=Get.put(ContactsController());
 
   @override
   Widget build(BuildContext context){
@@ -68,7 +65,6 @@ class ContactsApp extends StatelessWidget {
         )),
         floatingActionButton : FloatingActionButton.extended(
             onPressed: () {
-              DbServices.box.clear();
               controller.getContacts();
             },
             backgroundColor: Colors.blue,

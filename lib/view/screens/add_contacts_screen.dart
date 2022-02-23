@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nuclei_assignments/model/contacts.dart';
-import 'package:nuclei_assignments/controller/screen_controller.dart';
+import 'package:nuclei_assignments/controller/contact_screen_controller.dart';
+import 'package:nuclei_assignments/controller/add_update_screen_controller.dart';
 
-class AddContactsPage extends StatelessWidget{
+class AddContactScreen extends StatelessWidget{
 
-  AddContactsPage({Key? key}) : super(key: key){
-    ctrl.nameValidator("");
-    ctrl.phoneValidator("");
-    ctrl.emailValidator("");
+  AddContactScreen({Key? key}) : super(key: key){
+    controller.validateName("");
+    controller.validatePhone("");
+    controller.validateEmail("");
   }
 
-  final Controller ctrl=Get.find();
+  final ContactsController ctrl=Get.put(ContactsController());
+  final AddUpdateController controller=Get.put(AddUpdateController());
   final Contacts cont=Contacts();
 
   @override
@@ -27,11 +29,11 @@ class AddContactsPage extends StatelessWidget{
                 title: TextFormField(
                   decoration:  InputDecoration(
                     hintText: "Name",
-                    errorText: ctrl.nameValidatorMessage.value
+                    errorText: controller.nameValidatorMessage.value
                   ),
                   onChanged: (name){
                     cont.displayName=name;
-                    ctrl.nameValidator(name);
+                    controller.validateName(name);
                   },
                 ),
               ),
@@ -40,11 +42,11 @@ class AddContactsPage extends StatelessWidget{
                 title: TextFormField(
                   decoration:   InputDecoration(
                     hintText: "Phone",
-                    errorText: ctrl.phoneValidatorMessage.value
+                    errorText: controller.phoneValidatorMessage.value
                   ),
                   onChanged: (number){
                     cont.phones=number;
-                    ctrl.phoneValidator(number);
+                    controller.validatePhone(number);
                   },
                 ),
               ),
@@ -53,17 +55,17 @@ class AddContactsPage extends StatelessWidget{
                 title: TextFormField(
                     decoration:   InputDecoration(
                       hintText: "Email",
-                      errorText: ctrl.emailValidatorMessage.value
+                      errorText: controller.emailValidatorMessage.value
                     ),
                     onChanged: (email){
                       cont.emails=email;
-                      ctrl.emailValidator(email);
+                      controller.validateEmail(email);
                     }
                 ),
               ),
               FloatingActionButton.extended(onPressed: () {
-                if(ctrl.phoneValidatorMessage.value==null && ctrl.nameValidatorMessage.value==null &&
-                ctrl.emailValidatorMessage.value==null){
+                if(controller.phoneValidatorMessage.value==null && controller.nameValidatorMessage.value==null &&
+                    controller.emailValidatorMessage.value==null){
                   ctrl.addContact(cont);
                 }
                 Get.back();

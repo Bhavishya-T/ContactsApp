@@ -4,23 +4,26 @@ import 'contacts.dart';
 import 'dart:async';
 
 class DbServices{
-  static late Box box;
+  static late Box _box;
   static List<Contacts> getContacts() {
-    List<Contacts> contactList=box.values.toList() as List<Contacts>;
+    List<Contacts> contactList=_box.values.toList() as List<Contacts>;
     return contactList;
   }
 
+  static Box get(){
+    return _box;
+  }
   static void printHive(){
-    print(box.values.toList());
+    print(_box.values.toList());
   }
 
   static Future<void> init() async{
     await Hive.initFlutter();
     Hive.registerAdapter(ContactsAdapter());
-    box=await Hive.openBox<Contacts>("contactsBox");
+    _box=await Hive.openBox<Contacts>("contactsBox");
   }
 
-  static void getFromServices() async{
+  static void getFromContactsServices() async{
     List<Contact> contacts = await ContactsService.getContacts();
     for (var element in contacts) {
       var contact=Contacts(
@@ -37,7 +40,7 @@ class DbServices{
           postalAddresses : element.postalAddresses!.isEmpty?"NA":element.postalAddresses.toString(),
           avatar : element.avatar
       );
-      box.add(contact);
+      _box.add(contact);
     }
   }
 }

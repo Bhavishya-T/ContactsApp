@@ -9,11 +9,11 @@ import 'package:nuclei_assignments/controller/constants.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await DbServices.init();
-  runApp(const MyApp());
+  runApp(const ContactsApp());
 }
 
-class MyApp extends StatelessWidget{
-  const MyApp({Key? key}) : super(key: key);
+class ContactsApp extends StatelessWidget{
+  const ContactsApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context){
@@ -23,14 +23,14 @@ class MyApp extends StatelessWidget{
       getPages: [
         GetPage(
           name: Constants.CONTACTS_SCREEN,
-          page: () => ContactsApp()),
+          page: () => ContactsListScreen()),
         GetPage(
           name: Constants.ADD_CONTACTS_SCREEN,
-          page: () => AddContactsPage(),
+          page: () => AddContactScreen(),
         ),
         GetPage(
           name: Constants.UPDATE_SCREEN,
-          page: () => UpdateContactPage(),
+          page: () => UpdateContactScreen(),
         ),
       ],
     );

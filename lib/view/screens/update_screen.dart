@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nuclei_assignments/model/contacts.dart';
-import 'package:nuclei_assignments/controller/screen_controller.dart';
+import 'package:nuclei_assignments/controller/contact_screen_controller.dart';
+import 'package:nuclei_assignments/controller/add_update_screen_controller.dart';
 
-
-class UpdateContactPage extends StatelessWidget{
-  UpdateContactPage({Key? key}) : super(key: key){
+class UpdateContactScreen extends StatelessWidget{
+  UpdateContactScreen({Key? key}) : super(key: key){
     updatedContact.displayName=ctrl.contactsList.elementAt(updatedContactIndex).displayName;
     updatedContact.phones=ctrl.contactsList.elementAt(updatedContactIndex).phones;
     updatedContact.emails=ctrl.contactsList.elementAt(updatedContactIndex).emails;
-    ctrl.nameValidator(updatedContact.displayName!);
-    ctrl.phoneValidator(updatedContact.phones!);
-    ctrl.emailValidator(updatedContact.emails!);
+    controller.validateName(updatedContact.displayName!);
+    controller.validatePhone(updatedContact.phones!);
+    controller.validateEmail(updatedContact.emails!);
   }
 
-  final Controller ctrl=Get.find();
+  final ContactsController ctrl=Get.put(ContactsController());
+  final AddUpdateController controller=Get.put(AddUpdateController());
   final int updatedContactIndex=Get.arguments;
   final Contacts updatedContact=Contacts();
 
@@ -31,11 +32,11 @@ class UpdateContactPage extends StatelessWidget{
                 title: TextFormField(
                     initialValue: updatedContact.displayName,
                     decoration:  InputDecoration(
-                        errorText: ctrl.nameValidatorMessage.value
+                        errorText: controller.nameValidatorMessage.value
                     ),
                     onChanged: (name){
                       updatedContact.displayName=name;
-                      ctrl.nameValidator(name);
+                      controller.validateName(name);
                     }
                 ),
               ),
@@ -44,11 +45,11 @@ class UpdateContactPage extends StatelessWidget{
                 title: TextFormField(
                     initialValue: updatedContact.phones,
                     decoration:   InputDecoration(
-                        errorText: ctrl.phoneValidatorMessage.value
+                        errorText: controller.phoneValidatorMessage.value
                     ),
                     onChanged: (number){
                       updatedContact.phones=number;
-                      ctrl.phoneValidator(number);
+                      controller.validatePhone(number);
                     }
                 ),
               ),
@@ -57,17 +58,17 @@ class UpdateContactPage extends StatelessWidget{
                 title: TextFormField(
                     initialValue: updatedContact.emails,
                     decoration:   InputDecoration(
-                        errorText: ctrl.emailValidatorMessage.value
+                        errorText: controller.emailValidatorMessage.value
                     ),
                     onChanged: (email){
                       updatedContact.emails=email;
-                      ctrl.emailValidator(email);
+                      controller.validateEmail(email);
                     }
                 ),
               ),
               FloatingActionButton.extended(onPressed: () {
-                if(ctrl.phoneValidatorMessage.value==null && ctrl.nameValidatorMessage.value==null &&
-                    ctrl.emailValidatorMessage.value==null){
+                if(controller.phoneValidatorMessage.value==null && controller.nameValidatorMessage.value==null &&
+                    controller.emailValidatorMessage.value==null){
                   ctrl.deleteContact(updatedContactIndex);
                   ctrl.addContact(updatedContact);
                 }
